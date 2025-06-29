@@ -1,0 +1,18 @@
+from Crypto.Cipher import Twofish
+from Crypto.Random import get_random_bytes
+
+# Generar una clave de 16 bytes (128 bits)
+key = get_random_bytes(16)
+cipher = Twofish.new(key, Twofish.MODE_ECB)
+
+# Texto plano (debe ser múltiplo de 16 bytes)
+plaintext = b'SeguridadXsec1234'
+
+# Cifrado
+ciphertext = cipher.encrypt(plaintext)
+print(f'Cifrado: {ciphertext.hex()}')
+
+# Descifrado
+decipher = Twofish.new(key, Twofish.MODE_ECB)
+decrypted = decipher.decrypt(ciphertext)
+print(f'Descifrado: {decrypted.decode()}')
