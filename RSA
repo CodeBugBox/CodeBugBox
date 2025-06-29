@@ -1,0 +1,29 @@
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives import hashes
+
+# Generación de claves
+private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+public_key = private_key.public_key()
+
+# Cifrado
+mensaje = b"Texto confidencial"
+cifrado = public_key.encrypt(
+    mensaje,
+    padding.OAEP(
+        mgf=padding.MGF1(algorithm=hashes.SHA256()),
+        algorithm=hashes.SHA256(),
+        label=None
+    )
+)
+
+# Descifrado
+descifrado = private_key.decrypt(
+    cifrado,
+    padding.OAEP(
+        mgf=padding.MGF1(algorithm=hashes.SHA256()),
+        algorithm=hashes.SHA256(),
+        label=None
+    )
+)
+
+print("Mensaje original:", descifrado.decode())
