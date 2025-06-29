@@ -1,0 +1,29 @@
+from cryptography.hazmat.primitives.asymmetric import dsa
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import utils
+
+# Generar par de claves DSA
+private_key = dsa.generate_private_key(key_size=2048)
+public_key = private_key.public_key()
+
+# Mensaje a firmar
+message = b"Mensaje firmado con DSA"
+
+# Firmar el mensaje
+signature = private_key.sign(
+    message,
+    hashes.SHA256()
+)
+
+print(f"Firma: {signature.hex()}")
+
+# Verificar la firma
+try:
+    public_key.verify(
+        signature,
+        message,
+        hashes.SHA256()
+    )
+    print("Firma verificada correctamente.")
+except:
+    print("Firma inválida.")
