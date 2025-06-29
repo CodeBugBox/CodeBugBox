@@ -1,0 +1,20 @@
+from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
+import os
+
+# Generar clave de 256 bits
+key = ChaCha20Poly1305.generate_key()
+chacha = ChaCha20Poly1305(key)
+
+# Nonce de 96 bits
+nonce = os.urandom(12)
+
+# Mensaje original
+data = b"Mensaje confidencial para cifrado con ChaCha20"
+
+# Cifrar
+ciphertext = chacha.encrypt(nonce, data, associated_data=None)
+print(f"Cifrado: {ciphertext.hex()}")
+
+# Descifrar
+plaintext = chacha.decrypt(nonce, ciphertext, associated_data=None)
+print(f"Descifrado: {plaintext.decode()}")
