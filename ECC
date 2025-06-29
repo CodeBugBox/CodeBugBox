@@ -1,0 +1,21 @@
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric.utils import encode_dss_signature, decode_dss_signature
+from cryptography.hazmat.backends import default_backend
+
+# Generar par de claves ECC usando curva SECP256R1
+private_key = ec.generate_private_key(ec.SECP256R1(), default_backend())
+public_key = private_key.public_key()
+
+# Firmar un mensaje
+message = b'Mensaje firmado con ECC'
+signature = private_key.sign(message, ec.ECDSA(hashes.SHA256()))
+
+print(f'Firma: {signature.hex()}')
+
+# Verificar la firma
+try:
+    public_key.verify(signature, message, ec.ECDSA(hashes.SHA256()))
+    print("Firma verificada correctamente.")
+except:
+    print("Firma inválida.")
