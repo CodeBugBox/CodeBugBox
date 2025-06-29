@@ -1,0 +1,20 @@
+from Crypto.Cipher import DES3
+from Crypto.Random import get_random_bytes
+from Crypto.Util.Padding import pad, unpad
+
+# Generar una clave de 24 bytes (3 claves DES de 8 bytes)
+key = DES3.adjust_key_parity(get_random_bytes(24))
+cipher = DES3.new(key, DES3.MODE_ECB)
+
+# Texto plano a cifrar
+plaintext = b'SeguridadXsec123'
+padded_text = pad(plaintext, DES3.block_size)
+
+# Cifrado
+ciphertext = cipher.encrypt(padded_text)
+print(f'Cifrado: {ciphertext.hex()}')
+
+# Descifrado
+decipher = DES3.new(key, DES3.MODE_ECB)
+decrypted = unpad(decipher.decrypt(ciphertext), DES3.block_size)
+print(f'Descifrado: {decrypted.decode()}')
