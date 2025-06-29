@@ -1,0 +1,20 @@
+from Crypto.Cipher import Blowfish
+from Crypto.Util.Padding import pad, unpad
+from Crypto.Random import get_random_bytes
+
+# Crear clave de entre 4 y 56 bytes
+key = b'SeguridadXsecKey'
+cipher = Blowfish.new(key, Blowfish.MODE_ECB)
+
+# Texto plano
+plaintext = b'Mensaje secreto'
+padded_text = pad(plaintext, Blowfish.block_size)
+
+# Cifrado
+ciphertext = cipher.encrypt(padded_text)
+print(f'Cifrado: {ciphertext.hex()}')
+
+# Descifrado
+decipher = Blowfish.new(key, Blowfish.MODE_ECB)
+decrypted = unpad(decipher.decrypt(ciphertext), Blowfish.block_size)
+print(f'Descifrado: {decrypted.decode()}')
