@@ -1,0 +1,28 @@
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.backends import default_backend
+import os
+
+# Datos y clave
+clave = os.urandom(32)  # 256 bits
+iv = os.urandom(16)     # Vector de inicialización para CBC
+mensaje = b"Mensaje confidencial de prueba"
+
+# Padding manual si es necesario
+from cryptography.hazmat.primitives import padding
+padder = padding.PKCS7(128).padder()
+padded_data = padder.update(mensaje) + padder.finalize()
+
+# Cifrado
+cipher = Cipher(algorithms.AES(clave), modes.CBC(iv), backend=default_backend())
+encryptor = cipher.encryptor()
+cifrado = encryptor.update(padded_data) + encryptor.finalize()
+
+# Descifrado
+decryptor = cipher.decryptor()
+descifrado_padded = decryptor.update(cifrado) + decryptor.finalize()
+
+# Eliminar padding
+unpadder = padding.PKCS7(128).unpadder()
+descifrado = unpadder.update(descifrado_padded) + unpadder.finalize()
+
+print("Texto original:", descifrado.decode())
